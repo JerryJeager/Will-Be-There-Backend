@@ -1,0 +1,692 @@
+openapi: 3.0.1
+info:
+  title: Will Be There Backend
+  description: API for Will Be There
+  version: "1.0"
+servers:
+  - url: "https://will-be-there.onrender.com"
+
+paths:
+  /api/v1/users/signup:
+    post:
+      summary: Create a user account
+      description: Create a user account
+      tags:
+        - Users
+      operationId: create_user
+      requestBody:
+        $ref: "#/components/requestBodies/UserCreate"
+      responses:
+        "201":
+          $ref: "#/components/responses/CreatedWithIDResponse"
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "400":
+          $ref: "#/components/responses/badRequestError"
+        "500":
+          $ref: "#/components/responses/serverError"
+  /api/v1/users/login:
+    post:
+      summary: Login user
+      description: Login user
+      tags:
+        - Users
+      operationId: login_user
+      requestBody:
+        $ref: "#/components/requestBodies/UserLogin"
+      responses:
+        "200":
+          $ref: "#/components/responses/CreatedWithTokenResponse"
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "400":
+          $ref: "#/components/responses/badRequestError"
+        "500":
+          $ref: "#/components/responses/serverError"
+  /api/v1/users/{user-id}:
+    parameters:
+      - $ref: "#/components/parameters/user-id"
+    get:
+      summary: Get User by ID
+      description: Get User by ID
+      tags:
+        - Users
+      operationId: get_user
+      responses:
+        "200":
+          $ref: "#/components/responses/UserResponse"
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "400":
+          $ref: "#/components/responses/badRequestError"
+        "500":
+          $ref: "#/components/responses/serverError"
+  /api/v1/event:
+    post:
+      summary: Create event
+      description: Create event
+      tags:
+        - event
+      operationId: create_event
+      requestBody:
+        $ref: "#/components/requestBodies/eventBasic"
+      responses:
+        "200":
+          $ref: "#/components/responses/CreatedWithIDResponse"
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "400":
+          $ref: "#/components/responses/badRequestError"
+        "500":
+          $ref: "#/components/responses/serverError"
+  /api/v1/event/{event-id}:
+    parameters:
+      - $ref: "#/components/parameters/event-id"
+    get:
+      summary: Get event by ID
+      description: Get event by ID
+      tags:
+        - event
+      operationId: get_event
+      responses:
+        "200":
+          $ref: "#/components/responses/eventResponse"
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "400":
+          $ref: "#/components/responses/badRequestError"
+        "500":
+          $ref: "#/components/responses/serverError"
+  /api/v1/event/user/{user-id}:
+    get:
+      summary: Get list of events for a particular user
+      description: Get list of events for a particular user
+      tags:
+        - event
+      operationId: get_all_events
+      parameters:
+        - $ref: "#/components/parameters/user-id"
+      responses:
+        "200":
+          $ref: "#/components/responses/eventsResponse"
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "400":
+          $ref: "#/components/responses/badRequestError"
+        "500":
+          $ref: "#/components/responses/serverError"
+  /api/v1/event/{event-id}/event-type:
+    parameters:
+      - $ref: "#/components/parameters/event-id"
+    post:
+      summary: Create Event Type
+      description: Create Event Type
+      tags:
+        - event
+      operationId: create_event_type
+      requestBody:
+        $ref: "#/components/requestBodies/EventType"
+      responses:
+        "201":
+          $ref: "#/components/responses/CreatedWithIDResponse"
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "400":
+          $ref: "#/components/responses/badRequestError"
+        "500":
+          $ref: "#/components/responses/serverError"
+  /api/v1/event/{event-id}/event-type/{event-type-id}:
+    put:
+      summary: Update Event Type
+      description: Update Event Type
+      tags:
+        - event
+      operationId: update_event_type
+      parameters:
+        - $ref: "#/components/parameters/event-id"
+        - $ref: "#/components/parameters/event-type-id"
+      requestBody:
+        $ref: "#/components/requestBodies/EventType"
+      responses:
+        "200":
+          $ref: "#/components/responses/CreatedWithIDResponse"
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "400":
+          $ref: "#/components/responses/badRequestError"
+        "500":
+          $ref: "#/components/responses/serverError"
+    delete:
+      summary: Delete Event Type
+      description: Delete Event Type
+      tags:
+        - event
+      operationId: delete_event_type
+      parameters:
+        - $ref: "#/components/parameters/event-id"
+        - $ref: "#/components/parameters/event-type-id"
+      responses:
+        "204":
+          description: The resource was deleted successfully
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "400":
+          $ref: "#/components/responses/badRequestError"
+        "500":
+          $ref: "#/components/responses/serverError"
+  /api/v1/invitation/guest:
+    post:
+      summary: Create a Guest
+      description: Create a Guest
+      tags:
+        - Invitation
+      operationId: create_guest
+      requestBody:
+        $ref: "#/components/requestBodies/GuestBasic"
+      responses:
+        "201":
+          $ref: "#/components/responses/CreatedWithIDResponse"
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "400":
+          $ref: "#/components/responses/badRequestError"
+        "500":
+          $ref: "#/components/responses/serverError"
+  /api/v1/invitation/guest/{invitee-id}:
+    patch:
+      summary: update the status of a guest
+      description: update the status of a guest
+      tags:
+        - Invitation
+      operationId: update_guest_status
+      parameters:
+        - $ref: "#/components/parameters/invitee-id"
+      requestBody:
+        $ref: "#/components/requestBodies/Status"
+      responses:
+        "200":
+          $ref: "#/components/responses/createdResponse"
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "400":
+          $ref: "#/components/responses/badRequestError"
+        "500":
+          $ref: "#/components/responses/serverError"
+    put:
+      summary: update  a guest basic info
+      description: update a guest basic info
+      tags:
+        - Invitation
+      operationId: update_guest_info
+      parameters:
+        - $ref: "#/components/parameters/invitee-id"
+      requestBody:
+        $ref: "#/components/requestBodies/GuestInfo"
+      responses:
+        "200":
+          $ref: "#/components/responses/createdResponse"
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "400":
+          $ref: "#/components/responses/badRequestError"
+        "500":
+          $ref: "#/components/responses/serverError"
+    delete:
+      summary: delete a guest 
+      description: delete a guest 
+      tags:
+        - Invitation
+      operationId: delete_guest
+      parameters:
+        - $ref: "#/components/parameters/invitee-id"
+      responses:
+        "204":
+          description: The resource was deleted successfully
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "400":
+          $ref: "#/components/responses/badRequestError"
+        "500":
+          $ref: "#/components/responses/serverError"
+  /api/v1/invitation/guests/{event-id}:
+    get:
+      summary: Get list of guests for a particular event
+      description: Get list of guests for a particular event using the event id
+      tags:
+        - Invitation
+      operationId: get_all_invitees
+      parameters:
+        - $ref: "#/components/parameters/event-id"
+      responses:
+        "200":
+          $ref: "#/components/responses/InviteesResponse"
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "400":
+          $ref: "#/components/responses/badRequestError"
+        "500":
+          $ref: "#/components/responses/serverError"
+
+components:
+  parameters:
+    user-id:
+      name: user-id
+      description: "An id, a time-uuid"
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      example: 724fd412-1f8b-11ec-b0b3-9801a7895a3f
+    event-id:
+      name: event-id
+      description: "An id, a time-uuid"
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      example: 724fd412-1f8b-11ec-b0b3-9801a7895a3f
+    invitee-id:
+      name: invitee-id
+      description: "An id, a time-uuid"
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      example: 724fd412-1f8b-11ec-b0b3-9801a7895a3f
+    event-type-id:
+      name: event-type-id
+      description: "An id, a time-uuid"
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      example: 724fd412-1f8b-11ec-b0b3-9801a7895a3f
+  responses:
+    unauthorizedError:
+      description: Access token is missing or invalid
+    CreatedWithIDResponse:
+      description: "Response for Successful creation of an object, contains the uuid of the created object."
+      content:
+        application/json:
+          schema:
+            type: string
+            format: uuid
+            example: 724fd412-1f8b-11ec-b0b3-9801a7895a3f
+    CreatedWithTokenResponse:
+      description: "Response for Successful login of a user object, contains the jwt token that will be used for other requests."
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              token:
+                type: string
+                format: jwt
+                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE3MTIzMzU1NzcsImlkIjoiMDAwMDAwMDAtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAwIn0.6fTROLGcLnMBhROKgEYKaB0fQUz91uPL19RTBRNk1PQ
+              user_id:
+                type: string
+                format: uuid
+                example: 79ba352a-fd7b-4b39-9e6d-be412a88036d
+    UserResponse:
+      description: Response for user object
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/User"
+    InviteesResponse:
+      description: Response for invitees array
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Invitees"
+    eventsResponse:
+      description: Response for events array
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/events"
+    eventResponse:
+      description: Response for a event object
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/event"
+    createdResponse:
+      description: "Created"
+    successResponse:
+      description: "Request Successful"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: OK
+    badRequestError:
+      description: "Bad Request"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: bad request
+    notFoundRequestError:
+      description: "Not Found"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: not found
+    serverError:
+      description: "Error occured on the server. Could be as a result of invalid request"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "internal Server Error"
+    requestNotFoundError:
+      description: "File Not found error. Could be as a result bad link or change in path"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "File Not Found"
+  requestBodies:
+    UserCreate:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UserCreate"
+    UserLogin:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UserLogin"
+    eventBasic:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/eventBasic"
+    GuestBasic:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/GuestBasic"
+    GuestInfo:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/GuestInfo"
+    event:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/event"
+    EventType:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/EventTypeBasic"
+    Status:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/StatusUpdate"
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 724fd412-1f8b-11ec-b0b3-9801a7895a3f
+        email:
+          type: string
+          example: "user@gmail.com"
+        first_name:
+          type: string
+          example: "John"
+        last_name:
+          type: string
+          example: "Doe"
+        is_to_wed:
+          type: boolean
+          example: false
+        created_at:
+          type: string
+          format: timestampz
+          example: "2024-04-17T08:47:09.547361+01:00"
+    UserCreate:
+      type: object
+      properties:
+        email:
+          type: string
+          example: "user@gmail.com"
+        first_name:
+          type: string
+          example: "John"
+        last_name:
+          type: string
+          example: "Doe"
+        password:
+          type: string
+          example: "userpassword82_"
+    UserLogin:
+      type: object
+      properties:
+        email:
+          type: string
+          example: "user@gmail.com"
+        password:
+          type: string
+          example: "userpassword82_"
+    eventBasic:
+      type: object
+      properties:
+        description:
+          type: string
+          example: "Mr and Mrs John Smith Weds"
+        user_id:
+          type: string
+          format: uuid
+          example: 724fd412-1f8b-11ec-b0b3-9801a7895a3f
+        country:
+          type: string
+          example: "Nigeria"
+        state:
+          type: string
+          example: "Lagos"
+    event:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 724fd412-1f8b-11ec-b0b3-9801a7895a3f
+        description:
+          type: string
+          example: "Mr and Mrs John Smith Weds"
+        user_id:
+          type: string
+          format: uuid
+          example: 724fd412-1f8b-11ec-b0b3-9801a7895a3f
+        country:
+          type: string
+          example: "Nigeria"
+        state:
+          type: string
+          example: "Lagos"
+        event_types:
+          $ref: "#/components/schemas/EventTypes"
+    EventTypeBasic:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Reception party
+        venue:
+          type: string
+          example: 69 PLUTO Way Street, Ajegunle
+        description:
+          type: string
+          example: reception ceremonay after white event
+        date:
+          type: string
+          format: timestampz
+          example: "2024-04-17T08:47:09.547361+01:00"
+    EventType:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 724fd412-1f8b-11ec-b0b3-9801a7895a3f
+        name:
+          type: string
+          example: Reception party
+        venue:
+          type: string
+          example: 69 PLUTO Way Street, Ajegunle
+        description:
+          type: string
+          example: reception ceremonay after white event
+        date:
+          type: string
+          format: timestampz
+          example: "2024-04-17T08:47:09.547361+01:00"
+    EventTypes:
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/EventType"
+      example:
+        {
+          "c3d76ca4-10d2-4e30-aaa7-1f0506fa8dee":
+            {
+              "name": "Reception Party",
+              "venue": "Pluto way street, lekki",
+              "description": "Reception party after church service",
+              "date": "2024-04-17T08:47:09.547361+01:00",
+            },
+          "724fd412-1f8b-11ec-b0b3-9801a7895a3f":
+            {
+              "name": "Church Service",
+              "venue": "Pluto way street, lekki",
+              "description": "Catholic event Mass Ceremony",
+              "date": "2024-04-17T08:47:09.547361+01:00",
+            },
+        }
+    PlusOnes: 
+      type: object
+      properties:
+        name: 
+          type: string
+          example: "Amadi Jerry"
+    Invitees: 
+      type: array
+      items:
+        $ref: "#/components/schemas/Guest"
+    events: 
+      type: array
+      items:
+        $ref: "#/components/schemas/event"
+    Status:
+      type: string
+      description: Status for a Guest, i.e must be "attending", "pending", "rejected" or "approved"
+      example: "attending"
+    StatusUpdate:
+      type: object
+      description: Status for a Guest, i.e must be "attending", "pending", "rejected" or "approved"
+      properties:
+        status: 
+          type: string
+          example: "pending"
+    GuestBasic:
+      type: object
+      properties:
+        first_name:
+          type: string
+          example: "Eren"
+        last_name:
+          type: string
+          example: "Jeager"
+        email:
+          type: string
+          example: "eren@gmail.com"
+        event_id:
+          type: string
+          format: uuid
+          example: "724fd412-1f8b-11ec-b0b3-9801a7895a3f"
+        status: 
+          $ref: "#/components/schemas/Status"
+        plus_ones: 
+          type: array
+          items: 
+            $ref: "#/components/schemas/PlusOnes"
+          example: [
+            {"name": "Amadi Jerry"},
+            {"name": "John Doe"}
+          ]
+    GuestInfo:
+      type: object
+      properties:
+        first_name:
+          type: string
+          example: "Eren"
+        last_name:
+          type: string
+          example: "Jeager"
+        email:
+          type: string
+          example: "eren@gmail.com"
+        event_id:
+          type: string
+          format: uuid
+          example: "724fd412-1f8b-11ec-b0b3-9801a7895a3f"
+        status: 
+          $ref: "#/components/schemas/Status"
+    Guest:
+      type: object
+      properties:
+        first_name:
+          type: string
+          example: "Eren"
+        last_name:
+          type: string
+          example: "Jeager"
+        email:
+          type: string
+          example: "eren@gmail.com"
+        id:
+          type: string
+          format: uuid
+          example: "724fd412-1f8b-11ec-b0b3-9801a7895a3f"
+        event_id:
+          type: string
+          format: uuid
+          example: "724fd412-1f8b-11ec-b0b3-9801a7895a3f"
+        status: 
+          $ref: "#/components/schemas/Status"
+        plus_ones: 
+          type: array
+          items: 
+            $ref: "#/components/schemas/PlusOnes"
+          example: [
+            {"name": "Amadi Jerry"},
+            {"name": "John Doe"}
+          ]
