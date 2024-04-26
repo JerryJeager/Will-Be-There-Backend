@@ -1,6 +1,6 @@
 module github.com/JerryJeager/will-be-there-backend
 
-go 1.21.6
+go 1.21
 
 require (
 	github.com/gin-contrib/cors v1.7.1
