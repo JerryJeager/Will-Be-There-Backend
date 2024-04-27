@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/JerryJeager/will-be-there-backend/service"
+	"github.com/cloudinary/cloudinary-go/v2"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -59,4 +60,18 @@ func LoadEnv(){
 		fmt.Println(err)
 		log.Fatal("failed to load environment variables")
 	}
+}
+
+
+func SetupCloudinary() (*cloudinary.Cloudinary, error) {
+    cldSecret := os.Getenv("CLDSECRET")
+    cldName := os.Getenv("CLDNAME")
+    cldKey := os.Getenv("CLDKEY")
+
+    cld, err := cloudinary.NewFromParams(cldName, cldKey, cldSecret)
+    if err != nil {
+        return nil, err
+    }
+
+    return cld, nil
 }

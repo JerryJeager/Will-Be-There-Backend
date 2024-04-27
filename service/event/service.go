@@ -12,9 +12,7 @@ type EventSv interface {
 	GetEvents(ctx context.Context, eventID uuid.UUID) (*Events, error)
 	CreateEvent(ctx context.Context, Event *service.Event) (string, error)
 
-	CreateEventType(ctx context.Context, eventID uuid.UUID, eventType *service.EventType) (string, error)
-	UpdateEventType(ctx context.Context, eventID, eventTypeID uuid.UUID, eventType *service.EventType) (string, error)
-	DeleteEventType(ctx context.Context, eventID, eventTypeID uuid.UUID) error
+	UpdateImageUrl(ctx context.Context, eventID uuid.UUID, imageUrl string) error
 }
 
 type EventServ struct {
@@ -45,14 +43,6 @@ func (o *EventServ) CreateEvent(ctx context.Context, event *service.Event) (stri
 	return id.String(), nil
 }
 
-func (o *EventServ) CreateEventType(ctx context.Context, eventID uuid.UUID, eventType *service.EventType) (string, error) {
-	return o.repo.CreateEventType(ctx, eventID, eventType)
-}
-
-func (o *EventServ) UpdateEventType(ctx context.Context, eventID, eventTypeID uuid.UUID, eventType *service.EventType) (string, error) {
-	return o.repo.UpdateEventType(ctx, eventID, eventTypeID, eventType)
-}
-
-func (o *EventServ) DeleteEventType(ctx context.Context, eventID, evenTypeID uuid.UUID) error {
-	return o.repo.DeleteEventType(ctx, eventID, evenTypeID)
+func (o *EventServ) UpdateImageUrl(ctx context.Context, eventID uuid.UUID, imageUrl string) error{
+	return o.repo.UpdateImageUrl(ctx, eventID, imageUrl)
 }

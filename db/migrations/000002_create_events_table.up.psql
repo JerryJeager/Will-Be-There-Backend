@@ -1,11 +1,14 @@
 CREATE TABLE events (
     id                     UUID PRIMARY KEY,
+    name                   VARCHAR NOT NULL,
+    venue                  VARCHAR NOT NULL,
     description            VARCHAR(255),
-    event_types            JSONB,
     user_id                UUID NOT NULL REFERENCES users (id), 
-    country                VARCHAR(200) NOT NULL,
-    state                  VARCHAR(200) NOT NULL,
+    country                VARCHAR(200),
+    state                  VARCHAR(200),
     created_at             TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    image_url              VARCHAR,
+    date                   TIMESTAMPTZ,
     updated_at             TIMESTAMPTZ,
     deleted_at             TIMESTAMPTZ
 );

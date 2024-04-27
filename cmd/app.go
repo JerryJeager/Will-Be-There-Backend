@@ -13,13 +13,16 @@ import (
 )
 
 var userController = manualwire.GetUserController()
-var EventController = manualwire.GetEventController()
+var eventController = manualwire.GetEventController()
 var inviteeController = manualwire.GetInviteeController()
 
 func ExecuteApiRoutes() {
 	fmt.Println("executing api routes")
 
 	r := gin.Default()
+	// Set a lower memory limit for multipart forms (default is 32 MiB)
+    // r.MaxMultipartMemory = 8 << 20 // 8 MiB
+
 	r.Use(cors.Default())
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
@@ -44,9 +47,10 @@ func ExecuteApiRoutes() {
 	event := v1.Group("/event")
 	event.Use(middleware.JwtAuthMiddleware())
 	{
-		event.POST("", EventController.CreateEvent)
-		event.GET("/:event-id", EventController.GetEvent)
-		event.GET("user/:user-id", EventController.GetEvents)
+		event.POST("", eventController.CreateEvent)
+		event.GET("/:event-id", eventController.GetEvent)
+		event.GET("user/:user-id", eventController.GetEvents)
+		event.PUT("/:event-id/image", middleware.FileUploadMiddleware(), eventController.UpdateImageurl)
 	}
 
 	invitation := v1.Group("/invitation")

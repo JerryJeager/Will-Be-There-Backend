@@ -97,6 +97,24 @@ paths:
           $ref: "#/components/responses/badRequestError"
         "500":
           $ref: "#/components/responses/serverError"
+  /api/v1/event/{event-id}/image:
+    parameters:
+      - $ref: "#/components/parameters/event-id"
+    put:
+      summary: Upload Event Image
+      description: Upload Event Image
+      tags:
+        - event
+      operationId: upload_event_image
+      responses:
+        "200":
+          $ref: "#/components/responses/uploadImageResponse"
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "400":
+          $ref: "#/components/responses/badRequestError"
+        "500":
+          $ref: "#/components/responses/serverError"
   /api/v1/event/user/{user-id}:
     get:
       summary: Get list of events for a particular user
@@ -109,65 +127,6 @@ paths:
       responses:
         "200":
           $ref: "#/components/responses/eventsResponse"
-        "401":
-          $ref: "#/components/responses/unauthorizedError"
-        "400":
-          $ref: "#/components/responses/badRequestError"
-        "500":
-          $ref: "#/components/responses/serverError"
-  /api/v1/event/{event-id}/event-type:
-    parameters:
-      - $ref: "#/components/parameters/event-id"
-    post:
-      summary: Create Event Type
-      description: Create Event Type
-      tags:
-        - event
-      operationId: create_event_type
-      requestBody:
-        $ref: "#/components/requestBodies/EventType"
-      responses:
-        "201":
-          $ref: "#/components/responses/CreatedWithIDResponse"
-        "401":
-          $ref: "#/components/responses/unauthorizedError"
-        "400":
-          $ref: "#/components/responses/badRequestError"
-        "500":
-          $ref: "#/components/responses/serverError"
-  /api/v1/event/{event-id}/event-type/{event-type-id}:
-    put:
-      summary: Update Event Type
-      description: Update Event Type
-      tags:
-        - event
-      operationId: update_event_type
-      parameters:
-        - $ref: "#/components/parameters/event-id"
-        - $ref: "#/components/parameters/event-type-id"
-      requestBody:
-        $ref: "#/components/requestBodies/EventType"
-      responses:
-        "200":
-          $ref: "#/components/responses/CreatedWithIDResponse"
-        "401":
-          $ref: "#/components/responses/unauthorizedError"
-        "400":
-          $ref: "#/components/responses/badRequestError"
-        "500":
-          $ref: "#/components/responses/serverError"
-    delete:
-      summary: Delete Event Type
-      description: Delete Event Type
-      tags:
-        - event
-      operationId: delete_event_type
-      parameters:
-        - $ref: "#/components/parameters/event-id"
-        - $ref: "#/components/parameters/event-type-id"
-      responses:
-        "204":
-          description: The resource was deleted successfully
         "401":
           $ref: "#/components/responses/unauthorizedError"
         "400":
@@ -355,6 +314,12 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/event"
+    uploadImageResponse:
+      description: Response for an image upload
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/imageUrl"
     createdResponse:
       description: "Created"
     successResponse:
@@ -438,11 +403,6 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/event"
-    EventType:
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/EventTypeBasic"
     Status:
       content:
         application/json:
@@ -499,9 +459,12 @@ components:
     eventBasic:
       type: object
       properties:
+        name:
+          type: string
+          example: "Mr and Mrs John Smith Wedding"
         description:
           type: string
-          example: "Mr and Mrs John Smith Weds"
+          example: "description about the event"
         user_id:
           type: string
           format: uuid
@@ -512,6 +475,13 @@ components:
         state:
           type: string
           example: "Lagos"
+        venue:
+          type: string
+          example: "24 Pluto way street, Lekki"
+        date: 
+          type: string
+          format: date
+          example: 
     event:
       type: object
       properties:
@@ -519,6 +489,9 @@ components:
           type: string
           format: uuid
           example: 724fd412-1f8b-11ec-b0b3-9801a7895a3f
+        name:
+          type: string
+          example: "Mr and Mrs John Smith Wedding"
         description:
           type: string
           example: "Mr and Mrs John Smith Weds"
@@ -532,65 +505,12 @@ components:
         state:
           type: string
           example: "Lagos"
-        event_types:
-          $ref: "#/components/schemas/EventTypes"
-    EventTypeBasic:
-      type: object
-      properties:
-        name:
-          type: string
-          example: Reception party
         venue:
           type: string
-          example: 69 PLUTO Way Street, Ajegunle
-        description:
+          example: "24 Pluto way street, Lekki"
+        image_url: 
           type: string
-          example: reception ceremonay after white event
-        date:
-          type: string
-          format: timestampz
-          example: "2024-04-17T08:47:09.547361+01:00"
-    EventType:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          example: 724fd412-1f8b-11ec-b0b3-9801a7895a3f
-        name:
-          type: string
-          example: Reception party
-        venue:
-          type: string
-          example: 69 PLUTO Way Street, Ajegunle
-        description:
-          type: string
-          example: reception ceremonay after white event
-        date:
-          type: string
-          format: timestampz
-          example: "2024-04-17T08:47:09.547361+01:00"
-    EventTypes:
-      type: object
-      additionalProperties:
-        $ref: "#/components/schemas/EventType"
-      example:
-        {
-          "c3d76ca4-10d2-4e30-aaa7-1f0506fa8dee":
-            {
-              "name": "Reception Party",
-              "venue": "Pluto way street, lekki",
-              "description": "Reception party after church service",
-              "date": "2024-04-17T08:47:09.547361+01:00",
-            },
-          "724fd412-1f8b-11ec-b0b3-9801a7895a3f":
-            {
-              "name": "Church Service",
-              "venue": "Pluto way street, lekki",
-              "description": "Catholic event Mass Ceremony",
-              "date": "2024-04-17T08:47:09.547361+01:00",
-            },
-        }
+          example: "https://res.cloudinary.com/eiafeje/image/upload/v1714241343/bird-love.png.png"
     PlusOnes: 
       type: object
       properties:
@@ -616,6 +536,9 @@ components:
         status: 
           type: string
           example: "pending"
+    imageUrl: 
+      type: string
+      example: "https://res.cloudinary.com/aifjewif/image/upload/v1714241343/bird-love.png.png"
     GuestBasic:
       type: object
       properties:

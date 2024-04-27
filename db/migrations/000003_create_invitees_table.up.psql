@@ -5,5 +5,5 @@ CREATE TABLE invitees(
     email           VARCHAR(200) NOT NULL,
     status          VARCHAR(50) NOT NULL,
     plus_ones       JSONB,
-    wedding_id      UUID NOT NULL  REFERENCES weddings(id)
+    event_id        UUID NOT NULL  REFERENCES events(id)
 );
