@@ -42,7 +42,7 @@ func ExecuteApiRoutes() {
 
 	user := users
 	user.Use(middleware.JwtAuthMiddleware())
-	user.GET("/details", userController.GetUser)
+	user.GET("/:user-id", userController.GetUser)
 
 	event := v1.Group("/event")
 	event.Use(middleware.JwtAuthMiddleware())
