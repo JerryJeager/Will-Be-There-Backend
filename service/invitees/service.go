@@ -2,8 +2,10 @@ package invitees
 
 import (
 	"context"
+	"fmt"
 	"os"
 
+	"github.com/JerryJeager/will-be-there-backend/service/event"
 	"github.com/google/uuid"
 	"gopkg.in/gomail.v2"
 )
@@ -66,6 +68,12 @@ func (o *InviteeServ) DeleteInvitee(ctx context.Context, inviteeID uuid.UUID) er
 }
 
 func sendEmail(invitee *Invitee) error {
+	event, err := event.GetMyEvent(invitee.EventID)
+
+	if err != nil{
+		return err
+	}
+
 	email := os.Getenv("EMAIL")
 	emailUsername := os.Getenv("EMAILUSERNAME")
 	emailPassword := os.Getenv("EMAILPASSWORD")
@@ -74,7 +82,7 @@ func sendEmail(invitee *Invitee) error {
 	m.SetHeader("To", invitee.Email)
 	m.SetAddressHeader("Cc", invitee.Email, email)
 	m.SetHeader("Subject", "Will Be There")
-	m.SetBody("text/html", "Hello <b>You've rsvp for an event</b>  <i>Testing...</i>")
+	m.SetBody("text/html", fmt.Sprintf("<h2>Hello %s </h2> <p>You're a guest for an event, %s</p>  <h3>Event Details</h3> <ul> <li>Venue: %s </li> <li>Date: %s </li> </ul> <i>See you there!</i>", invitee.FirstName, event.Name, event.Venue, event.Date ))
 
 	d := gomail.NewDialer("smtp.gmail.com", 587, emailUsername, emailPassword)
 

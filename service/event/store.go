@@ -34,6 +34,16 @@ func (o *EventRepo) GetEvent(ctx context.Context, EventID uuid.UUID) (*Event, er
 	return &event, nil
 }
 
+//function to get event details that'll be emailed to guests
+func GetMyEvent(EventID uuid.UUID) (*Event, error) {
+	var event Event
+	query := config.Session.First(&event, "id = ?", EventID)
+	if query.Error != nil {
+		return &Event{}, query.Error
+	}
+	return &event, nil
+}
+
 func (o *EventRepo) GetEvents(ctx context.Context, userID uuid.UUID) (*Events, error) {
 	var events Events
 
