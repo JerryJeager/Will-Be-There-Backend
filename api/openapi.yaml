@@ -425,9 +425,6 @@ components:
         last_name:
           type: string
           example: "Doe"
-        is_to_wed:
-          type: boolean
-          example: false
         created_at:
           type: string
           format: timestampz
