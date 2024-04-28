@@ -22,7 +22,6 @@ type User struct {
 	FirstName string `json:"first_name" `
 	LastName  string `json:"last_name" `
 	Password  string `json:"password" binding:"required"`
-	IsToWed   bool   `json:"is_to_wed"`
 }
 
 type Event struct {
