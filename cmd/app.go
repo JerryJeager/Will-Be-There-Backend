@@ -53,6 +53,7 @@ func ExecuteApiRoutes() {
 		event.POST("", eventController.CreateEvent)
 		event.GET("user/:user-id", eventController.GetEvents)
 		event.PUT("/:event-id/image", middleware.FileUploadMiddleware(), eventController.UpdateImageurl)
+		event.DELETE("/:event-id", eventController.DeleteEvent)
 	}
 
 	invitation := v1.Group("/invitation")

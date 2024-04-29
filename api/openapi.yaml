@@ -97,6 +97,21 @@ paths:
           $ref: "#/components/responses/badRequestError"
         "500":
           $ref: "#/components/responses/serverError"
+    delete:
+      summary: delete event by ID
+      description: delete event by ID
+      tags:
+        - event
+      operationId: delete_event
+      responses:
+        "204":
+          description: "The resource was deleted successfully"
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "400":
+          $ref: "#/components/responses/badRequestError"
+        "500":
+          $ref: "#/components/responses/serverError"
   /api/v1/event/{event-id}/image:
     parameters:
       - $ref: "#/components/parameters/event-id"

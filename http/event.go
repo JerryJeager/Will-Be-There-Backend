@@ -106,3 +106,21 @@ func (o *EventController) UpdateImageurl(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, imageUrl)
 
 }
+
+func (o *EventController) DeleteEvent(ctx *gin.Context) {
+	var pp EventIDPathParam
+
+	if err := ctx.ShouldBindUri(&pp); err != nil{
+		ctx.JSON(http.StatusBadRequest, gin.H{"message": "event id is of invalid format"})
+		return
+	}
+
+	err := o.serv.DeleteEvent(ctx, uuid.MustParse(pp.EventID))
+
+	if err != nil {
+		ctx.Status(http.StatusNotFound)
+		return
+	}
+
+	ctx.Status(http.StatusNoContent)
+}

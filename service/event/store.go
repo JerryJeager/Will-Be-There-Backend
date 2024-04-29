@@ -15,6 +15,8 @@ type EventStore interface {
 	GetEvents(ctx context.Context, userID uuid.UUID) (*Events, error)
 
 	UpdateImageUrl(ctx context.Context, eventID uuid.UUID, imageUrl string) error
+
+	DeleteEvent(ctx context.Context, eventID uuid.UUID) error
 }
 
 type EventRepo struct {
@@ -34,7 +36,7 @@ func (o *EventRepo) GetEvent(ctx context.Context, EventID uuid.UUID) (*Event, er
 	return &event, nil
 }
 
-//function to get event details that'll be emailed to guests
+// function to get event details that'll be emailed to guests
 func GetMyEvent(EventID uuid.UUID) (*Event, error) {
 	var event Event
 	query := config.Session.First(&event, "id = ?", EventID)
@@ -69,5 +71,16 @@ func (o *EventRepo) UpdateImageUrl(ctx context.Context, eventID uuid.UUID, image
 	if query.Error != nil {
 		return query.Error
 	}
+	return nil
+}
+
+func (o *EventRepo) DeleteEvent(ctx context.Context, eventID uuid.UUID) error {
+	var event Event
+	query := config.Session.WithContext(ctx).Where("id = ?", eventID).Delete(&event)
+
+	if query.Error != nil {
+		return query.Error
+	}
+
 	return nil
 }
