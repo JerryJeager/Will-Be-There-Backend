@@ -52,7 +52,6 @@ func ExecuteApiRoutes() {
 	{
 		event.POST("", eventController.CreateEvent)
 		event.GET("user/:user-id", eventController.GetEvents)
-		event.GET("/:event-id", eventController.GetEvent)
 		event.PUT("/:event-id/image", middleware.FileUploadMiddleware(), eventController.UpdateImageurl)
 	}
 
