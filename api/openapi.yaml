@@ -562,6 +562,9 @@ components:
             {"name": "Amadi Jerry"},
             {"name": "John Doe"}
           ]
+        message: 
+          type: string
+          example: "congratulations on your birthday, more life, more prosperity, more money, yata yata!"
     GuestInfo:
       type: object
       properties:
@@ -580,6 +583,9 @@ components:
           example: "724fd412-1f8b-11ec-b0b3-9801a7895a3f"
         status: 
           $ref: "#/components/schemas/Status"
+        message: 
+          type: string
+          example: "congratulations on your birthday, more life, more prosperity, more money, yata yata!"
     Guest:
       type: object
       properties:

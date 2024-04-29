@@ -33,7 +33,7 @@ type Event struct {
 	State       string     `json:"state"`
 	Date        *time.Time `json:"date" binding:"required"`
 	Venue       string     `json:"venue" binding:"required"`
-	ImageUrl	string	   `json:"image_url"`
+	ImageUrl    string     `json:"image_url"`
 }
 
 type Invitee struct {
@@ -44,6 +44,7 @@ type Invitee struct {
 	Status    Status    `json:"status" binding:"required"`
 	PlusOnes  *PlusOnes `json:"plus_ones"`
 	EventID   uuid.UUID `json:"event_id" binding:"required"`
+	Message   string    `json:"message"`
 }
 
 type Status string

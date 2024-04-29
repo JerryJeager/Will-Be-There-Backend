@@ -17,13 +17,14 @@ type Invitee struct {
 	Email     string    `json:"email" binding:"required" gorm:"unique"`
 	Status    Status    `json:"status" binding:"required"`
 	PlusOnes  *PlusOnes `json:"plus_ones"`
-	EventID uuid.UUID `json:"event_id" binding:"required"`
+	EventID   uuid.UUID `json:"event_id" binding:"required"`
+	Message   string    `json:"message"`
 }
 
 type Status string
 
 type NewStatus struct {
-	Status 
+	Status
 }
 
 const (
@@ -63,7 +64,7 @@ func (o *Invitee) MarshalJSON() ([]byte, error) {
 		"last_name":  o.LastName,
 		"email":      o.Email,
 		"status":     o.Status,
-		"event_id": o.EventID,
+		"event_id":   o.EventID,
 		"plus_ones":  o.PlusOnes,
 	}
 
