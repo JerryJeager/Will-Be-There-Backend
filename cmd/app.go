@@ -46,13 +46,15 @@ func ExecuteApiRoutes() {
 	user.GET("/:user-id", userController.GetUser)
 
 	event := v1.Group("/event")
+	theEvent := v1.Group("/event")  //the event, an endpoint used to fetch event details that'll be displayed on rsvp form, will work without the use of an access token
 	event.Use(middleware.JwtAuthMiddleware())
 	{
 		event.POST("", eventController.CreateEvent)
-		event.GET("/:event-id", eventController.GetEvent)
 		event.GET("user/:user-id", eventController.GetEvents)
+		event.GET("/:event-id", eventController.GetEvent)
 		event.PUT("/:event-id/image", middleware.FileUploadMiddleware(), eventController.UpdateImageurl)
 	}
+	theEvent.GET("/:event-id", eventController.GetEvent)
 
 	invitation := v1.Group("/invitation")
 	// invitation.Use(middleware.JwtAuthMiddleware())
