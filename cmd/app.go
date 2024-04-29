@@ -8,7 +8,7 @@ import (
 	"github.com/JerryJeager/will-be-there-backend/api"
 	"github.com/JerryJeager/will-be-there-backend/manualwire"
 	"github.com/JerryJeager/will-be-there-backend/middleware"
-	"github.com/gin-contrib/cors"
+	// "github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -23,7 +23,8 @@ func ExecuteApiRoutes() {
 	// Set a lower memory limit for multipart forms (default is 32 MiB)
     // r.MaxMultipartMemory = 8 << 20 // 8 MiB
 
-	r.Use(cors.Default())
+	// r.Use(cors.Default())
+	r.Use(middleware.CORSMiddleware())
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "hello!",
