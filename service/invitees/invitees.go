@@ -66,6 +66,7 @@ func (o *Invitee) MarshalJSON() ([]byte, error) {
 		"status":     o.Status,
 		"event_id":   o.EventID,
 		"plus_ones":  o.PlusOnes,
+		"message": 	  o.Message,
 	}
 
 	return json.Marshal(invitee)
