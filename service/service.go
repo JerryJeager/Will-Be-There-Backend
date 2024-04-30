@@ -40,7 +40,7 @@ type Invitee struct {
 	BaseModel
 	FirstName string    `json:"first_name"`
 	LastName  string    `json:"last_name"`
-	Email     string    `json:"email" binding:"required" gorm:"unique"`
+	Email     string    `json:"email" binding:"required"`
 	Status    Status    `json:"status" binding:"required"`
 	PlusOnes  *PlusOnes `json:"plus_ones"`
 	EventID   uuid.UUID `json:"event_id" binding:"required"`
