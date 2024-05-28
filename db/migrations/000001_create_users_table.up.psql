@@ -4,9 +4,7 @@ CREATE TABLE users(
     first_name   VARCHAR(100),
     last_name    VARCHAR(100),
     password     VARCHAR NOT NULL,
-    is_to_wed    BOOLEAN,
     created_at   TIMESTAMPTZ NOT NULL,
     updated_at   TIMESTAMPTZ,
     deleted_at   TIMESTAMPTZ
-
 );

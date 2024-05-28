@@ -14,10 +14,10 @@ type Invitee struct {
 	service.BaseModel
 	FirstName string    `json:"first_name"`
 	LastName  string    `json:"last_name"`
-	Email     string    `json:"email" binding:"required"`
+	Email     string    `json:"email" binding:"required" gorm:"uniqueIndex:idx_email_event_id"`
 	Status    Status    `json:"status" binding:"required"`
 	PlusOnes  *PlusOnes `json:"plus_ones"`
-	EventID   uuid.UUID `json:"event_id" binding:"required"`
+	EventID   uuid.UUID `json:"event_id" binding:"required" gorm:"uniqueIndex:idx_email_event_id"`
 	Message   string    `json:"message"`
 }
 
@@ -66,7 +66,7 @@ func (o *Invitee) MarshalJSON() ([]byte, error) {
 		"status":     o.Status,
 		"event_id":   o.EventID,
 		"plus_ones":  o.PlusOnes,
-		"message": 	  o.Message,
+		"message":    o.Message,
 	}
 
 	return json.Marshal(invitee)

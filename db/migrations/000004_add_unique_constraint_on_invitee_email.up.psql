@@ -1,0 +1,1 @@
+ALTER TABLE invitees ADD CONSTRAINT unique_invitee_email UNIQUE(email, event_id);
