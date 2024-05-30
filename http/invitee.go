@@ -32,6 +32,22 @@ func (o *InviteeController) CreateInvitee(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, id)
 }
 
+func (o *InviteeController) CreateInviteeByEmail(ctx *gin.Context) {
+	var invitee invitees.InviteeByEmail
+	if err := ctx.ShouldBindJSON(&invitee); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
+	}
+
+	id, err := o.serv.CreateInviteeByEmail(ctx, &invitee)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusCreated, id)
+}
+
 func (o *InviteeController) GetInvitees(ctx *gin.Context) {
 	var pp EventIDPathParam
 	if err := ctx.ShouldBindUri(&pp); err != nil {

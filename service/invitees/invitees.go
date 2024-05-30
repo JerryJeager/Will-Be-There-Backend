@@ -20,6 +20,11 @@ type Invitee struct {
 	EventID   uuid.UUID `json:"event_id" binding:"required" gorm:"uniqueIndex:idx_email_event_id"`
 	Message   string    `json:"message"`
 }
+type InviteeByEmail struct {
+	service.BaseModel
+	Email     string    `json:"email" binding:"required" gorm:"uniqueIndex:idx_email_event_id"`
+	EventID   uuid.UUID `json:"event_id" binding:"required" gorm:"uniqueIndex:idx_email_event_id"`
+}
 
 type Status string
 
