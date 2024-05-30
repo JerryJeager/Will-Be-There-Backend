@@ -97,7 +97,7 @@ func sendEmail(invitee *Invitee, isPending bool) error {
 	email := os.Getenv("EMAIL")
 	emailUsername := os.Getenv("EMAILUSERNAME")
 	emailPassword := os.Getenv("EMAILPASSWORD")
-	confirmLink := fmt.Sprintf("https://will-be-there.vercel.app/invitation/%s?extras=0", invitee.EventID)
+	confirmLink := fmt.Sprintf("https://will-be-there.vercel.app/invitation/%s?extras=0&user=%s", invitee.EventID, invitee.ID)
 	m := gomail.NewMessage()
 	m.SetHeader("From", email)
 	m.SetHeader("To", invitee.Email)
