@@ -8,6 +8,7 @@ import (
 	"github.com/JerryJeager/will-be-there-backend/api"
 	"github.com/JerryJeager/will-be-there-backend/manualwire"
 	"github.com/JerryJeager/will-be-there-backend/middleware"
+
 	// "github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
@@ -21,7 +22,7 @@ func ExecuteApiRoutes() {
 
 	r := gin.Default()
 	// Set a lower memory limit for multipart forms (default is 32 MiB)
-    // r.MaxMultipartMemory = 8 << 20 // 8 MiB
+	// r.MaxMultipartMemory = 8 << 20 // 8 MiB
 
 	// r.Use(cors.Default())
 	r.Use(middleware.CORSMiddleware())
@@ -45,7 +46,7 @@ func ExecuteApiRoutes() {
 	user.Use(middleware.JwtAuthMiddleware())
 	user.GET("/:user-id", userController.GetUser)
 
-	v1.GET("/event/:event-id", eventController.GetEvent)// an endpoint used to fetch event details that'll be displayed on rsvp form, will work without the use of an access token
+	v1.GET("/event/:event-id", eventController.GetEvent) // an endpoint used to fetch event details that'll be displayed on rsvp form, will work without the use of an access token
 
 	event := v1.Group("/event")
 	event.Use(middleware.JwtAuthMiddleware())
@@ -59,14 +60,16 @@ func ExecuteApiRoutes() {
 	invitation := v1.Group("/invitation")
 	// invitation.Use(middleware.JwtAuthMiddleware())
 	// {
-		invitation.POST("/guest", inviteeController.CreateInvitee)
-		invitation.PATCH("/guest/:invitee-id", inviteeController.UpdateInviteeStatus)
-		invitation.PUT("/guest/:invitee-id", inviteeController.UpdateInvitee)
-		invitation.GET("/guests/:event-id", inviteeController.GetInvitees)
+	invitation.POST("/guest", inviteeController.CreateInvitee)
+	invitation.PATCH("/guest/:invitee-id", inviteeController.UpdateInviteeStatus)
+	invitation.PUT("/guest/:invitee-id", inviteeController.UpdateInvitee)
+	invitation.GET("/guests/:event-id", inviteeController.GetInvitees)
 	// }
 	invitation.Use(middleware.JwtAuthMiddleware())
 	{
 		invitation.DELETE("/guest/:invitee-id", inviteeController.DeleteInvitee)
+		invitation.POST("/guest/pending", inviteeController.CreateInviteeByEmail)
+
 	}
 
 	port := os.Getenv("PORT")

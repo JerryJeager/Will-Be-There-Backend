@@ -166,6 +166,24 @@ paths:
           $ref: "#/components/responses/badRequestError"
         "500":
           $ref: "#/components/responses/serverError"
+  /api/v1/invitation/guest/pending:
+    post:
+      summary: Create a Guest by their email
+      description: A pending guest is created and then an email is sent to them to confirm their attendance
+      tags:
+        - Invitation
+      operationId: create_guest_by_email
+      requestBody:
+        $ref: "#/components/requestBodies/GuestBasicByEmail"
+      responses:
+        "201":
+          $ref: "#/components/responses/CreatedWithIDResponse"
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "400":
+          $ref: "#/components/responses/badRequestError"
+        "500":
+          $ref: "#/components/responses/serverError"
   /api/v1/invitation/guest/{invitee-id}:
     patch:
       summary: update the status of a guest
@@ -408,6 +426,11 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/GuestBasic"
+    GuestBasicByEmail:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/GuestBasicByEmail"
     GuestInfo:
       content:
         application/json:
@@ -580,6 +603,16 @@ components:
         message: 
           type: string
           example: "congratulations on your birthday, more life, more prosperity, more money, yata yata!"
+    GuestBasicByEmail:
+      type: object
+      properties:
+        email:
+          type: string
+          example: "eren@gmail.com"
+        event_id:
+          type: string
+          format: uuid
+          example: "724fd412-1f8b-11ec-b0b3-9801a7895a3f"
     GuestInfo:
       type: object
       properties:
