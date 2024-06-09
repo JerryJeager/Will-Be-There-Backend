@@ -12,6 +12,7 @@ import (
 type InviteeStore interface {
 	CreateInvitee(ctx context.Context, invitee *Invitee) error
 	GetInvitees(ctx context.Context, weddingID uuid.UUID) (*Invitees, error)
+	GetInviteeByID(ctx context.Context, InviteeID uuid.UUID) (*Invitee, error)
 	UpdateInviteeStatus(ctx context.Context, inviteeID uuid.UUID, status *NewStatus) error
 	UpdateInvitee(ctx context.Context, inviteeID uuid.UUID, invitee *Invitee) error
 	DeleteInvitee(ctx context.Context, inviteeID uuid.UUID) error
@@ -45,6 +46,18 @@ func (o *InviteeRepo) GetInvitees(ctx context.Context, eventID uuid.UUID) (*Invi
 	}
 
 	return &invitees, nil
+}
+
+func (o *InviteeRepo) GetInviteeByID(ctx context.Context, InviteeID uuid.UUID) (*Invitee, error) {
+	var invitee Invitee
+
+	query := config.Session.WithContext(ctx).Model(Invitee{}).Where("id = ?", InviteeID).Find(&invitee)
+
+	if query.Error != nil {
+		return nil, query.Error
+	}
+
+	return &invitee, nil
 }
 
 func (o *InviteeRepo) UpdateInviteeStatus(ctx context.Context, inviteeID uuid.UUID, status *NewStatus) error {

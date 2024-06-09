@@ -15,6 +15,7 @@ type InviteeSv interface {
 	CreateInvitee(ctx context.Context, invitee *Invitee) (string, error)
 	CreateInviteeByEmail(ctx context.Context, invitee *InviteeByEmail) (string, error)
 	GetInvitees(ctx context.Context, eventID uuid.UUID) (*Invitees, error)
+	GetInviteeByID(ctx context.Context, InviteeID uuid.UUID) (*Invitee, error)
 	UpdateInviteeStatus(ctx context.Context, inviteeID uuid.UUID, status *NewStatus) error
 	UpdateInvitee(ctx context.Context, inviteeID uuid.UUID, invitee *Invitee) error
 	DeleteInvitee(ctx context.Context, inviteeID uuid.UUID) error
@@ -70,6 +71,9 @@ func (o *InviteeServ) CreateInviteeByEmail(ctx context.Context, invitee *Invitee
 
 func (o *InviteeServ) GetInvitees(ctx context.Context, eventID uuid.UUID) (*Invitees, error) {
 	return o.repo.GetInvitees(ctx, eventID)
+}
+func (o *InviteeServ)GetInviteeByID(ctx context.Context, InviteeID uuid.UUID) (*Invitee, error) {
+	return o.repo.GetInviteeByID(ctx, InviteeID)
 }
 
 func (o *InviteeServ) UpdateInviteeStatus(ctx context.Context, inviteeID uuid.UUID, status *NewStatus) error {

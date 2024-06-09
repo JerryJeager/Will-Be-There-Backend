@@ -65,6 +65,23 @@ func (o *InviteeController) GetInvitees(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, *invitees)
 }
 
+func (o *InviteeController) GetInviteeByID(ctx *gin.Context) {
+	var pp InviteeIDPathParam
+	if err := ctx.ShouldBindUri(&pp); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"message": "id is of invalid uuid format"})
+		return
+	}
+
+	invitee, err := o.serv.GetInviteeByID(ctx, uuid.MustParse(pp.InviteeID))
+
+	if err != nil {
+		ctx.JSON(http.StatusNotFound, err.Error())
+		return
+	}
+
+	ctx.JSON(http.StatusOK, *invitee)
+}
+
 func (o *InviteeController) UpdateInviteeStatus(ctx *gin.Context) {
 	var pp InviteeIDPathParam
 	if err := ctx.ShouldBindUri(&pp); err != nil {

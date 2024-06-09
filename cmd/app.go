@@ -64,6 +64,7 @@ func ExecuteApiRoutes() {
 	invitation.PATCH("/guest/:invitee-id", inviteeController.UpdateInviteeStatus)
 	invitation.PUT("/guest/:invitee-id", inviteeController.UpdateInvitee)
 	invitation.GET("/guests/:event-id", inviteeController.GetInvitees)
+	invitation.GET("/guests/:invitee-id", inviteeController.GetInviteeByID)
 	// }
 	invitation.Use(middleware.JwtAuthMiddleware())
 	{

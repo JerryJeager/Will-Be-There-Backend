@@ -258,6 +258,24 @@ paths:
           $ref: "#/components/responses/badRequestError"
         "500":
           $ref: "#/components/responses/serverError"
+  /api/v1/invitation/guests/{guest-id}:
+    get:
+      summary: Get  guest by id
+      description: Get guest by id
+      tags:
+        - Invitation
+      operationId: get_guest_by_id
+      parameters:
+        - $ref: "#/components/parameters/guest-id"
+      responses:
+        "200":
+          $ref: "#/components/responses/InviteeResponse"
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "400":
+          $ref: "#/components/responses/badRequestError"
+        "500":
+          $ref: "#/components/responses/serverError"
 
 components:
   parameters:
@@ -272,6 +290,15 @@ components:
       example: 724fd412-1f8b-11ec-b0b3-9801a7895a3f
     event-id:
       name: event-id
+      description: "An id, a time-uuid"
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      example: 724fd412-1f8b-11ec-b0b3-9801a7895a3f
+    guest-id:
+      name: guest-id
       description: "An id, a time-uuid"
       in: path
       required: true
@@ -347,6 +374,12 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/event"
+    InviteeResponse:
+      description: Response for a guest object
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Guest"
     uploadImageResponse:
       description: Response for an image upload
       content:
