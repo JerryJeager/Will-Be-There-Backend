@@ -72,7 +72,7 @@ func (o *InviteeRepo) UpdateInviteeStatus(ctx context.Context, inviteeID uuid.UU
 }
 
 func (o *InviteeRepo) UpdateInvitee(ctx context.Context, inviteeID uuid.UUID, invitee *Invitee) error {
-	query := config.Session.Model(Invitee{}).WithContext(ctx).Where("id = ? ", inviteeID).Updates(Invitee{FirstName: invitee.FirstName, LastName: invitee.LastName, PlusOnes: invitee.PlusOnes, Status: invitee.Status})
+	query := config.Session.Model(Invitee{}).WithContext(ctx).Where("id = ? ", inviteeID).Updates(Invitee{FirstName: invitee.FirstName, LastName: invitee.LastName, PlusOnes: invitee.PlusOnes, Status: invitee.Status, Message: invitee.Message})
 
 	if query.Error != nil {
 		return query.Error
