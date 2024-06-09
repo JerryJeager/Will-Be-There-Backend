@@ -258,7 +258,7 @@ paths:
           $ref: "#/components/responses/badRequestError"
         "500":
           $ref: "#/components/responses/serverError"
-  /api/v1/invitation/guests/{guest-id}:
+  /api/v1/invitation/guest/{guest-id}:
     get:
       summary: Get  guest by id
       description: Get guest by id
