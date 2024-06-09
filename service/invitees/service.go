@@ -110,7 +110,7 @@ func sendEmail(invitee *Invitee, isPending bool) error {
 	if !isPending {
 		m.SetBody("text/html", utils.InviteeEmail(event.ImageUrl, invitee.FirstName, event.Name, event.Venue, event.Date))
 	}else{
-		m.SetBody("text/html", utils.PendingInviteeEmail(event.ImageUrl, invitee.FirstName, event.Name, event.Venue, confirmLink, event.Date))
+		m.SetBody("text/html", utils.PendingInviteeEmail(event.ImageUrl, invitee.Email, event.Name, event.Venue, confirmLink, event.Date))
 	}
 
 	d := gomail.NewDialer("smtp.gmail.com", 587, emailUsername, emailPassword)
